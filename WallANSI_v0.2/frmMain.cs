@@ -10,14 +10,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * Se pierde el formato RTF al pegar texto
+ * 
+ */
+
+
 namespace WallANSI_v0._2
 {
     public partial class frmMain : Form {
         public frmMain() {
             InitializeComponent();
-            rtfTexto.Font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
-            rtfSecuencia.Font = new Font("Consolas", 12, FontStyle.Regular, GraphicsUnit.Point);
+            rtfTexto.Font = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Point);
+            rtfSecuencia.Font = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Point);
 
+
+            if (File.Exists("boveda.rtf")) {
+                rtfBoveda.LoadFile("boveda.rtf");
+            }
         }
 
         private void frmMain_DragDrop(object sender, DragEventArgs e) {
@@ -28,6 +38,7 @@ namespace WallANSI_v0._2
 
             if (Path.GetExtension(rutaArchivo).ToLower() == ".txt") {
                 string[] lineas = File.ReadAllLines(rutaArchivo);
+                if (lineas.Length == 0) return;
 
                 foreach (string linea in lineas) {
                     hacerUnaTxtLine(linea);
@@ -65,7 +76,31 @@ namespace WallANSI_v0._2
             guardarANSI();
         }
 
+        private void rtfSecuencia_DoubleClick(object sender, EventArgs e) {
+            gbBoveda.Visible = true;
+        }
 
+        private void cmdCerrarBoveda_Click(object sender, EventArgs e) {
+            gbBoveda.Visible = false;
+        }
+
+        private void cmdGuardarBoveda_Click(object sender, EventArgs e) {
+            rtfBoveda.SaveFile("boveda.rtf");
+
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            rtfBoveda.SaveFile("boveda.rtf");
+
+        }
+
+        private void cmdPegar_Click(object sender, EventArgs e) {
+            if (rtfBoveda.SelectedText.Length == 0) return;
+            
+            rtfSecuencia.Text = "";
+            rtfSecuencia.SelectedRtf = rtfBoveda.SelectedRtf;
+
+        }
 
         /*
         ##############################################################
@@ -78,21 +113,21 @@ namespace WallANSI_v0._2
 
         private void hacerUnaCharline() {
             int s = 0;
+            string cincuenta = new string(' ', 50);
+
             rtfTexto.AppendText(Environment.NewLine);
-            for (int i = 0; i < 81; i++) {
-                rtfSecuencia.Select(s, 1);
-                //rtfTexto.AppendText(rtfSecuencia.SelectedRtf);
-                rtfTexto.Select(rtfTexto.Text.Length, 0);
-                rtfTexto.SelectedRtf = rtfSecuencia.SelectedRtf;
-                s++;
-                if (s == rtfSecuencia.Text.Length) s = 0;
-            }
+            
+            quinceChars();
+            rtfTexto.AppendText(cincuenta);
+            quinceChars();
         }
 
         private void hacerUnaTxtLine(string strLinea) {
             hacerUnaCharline();
             int c = rtfTexto.Text.Length - 65;
 
+            
+            
             for (int i = 0; i < strLinea.Length - 1; i++) {
                 rtfTexto.Select(c, 1);
                 rtfTexto.SelectedText = strLinea[i].ToString();
@@ -108,39 +143,16 @@ namespace WallANSI_v0._2
             }
         }
 
-        /*private void guardarANSI() {
-
-            if (rtfTexto.Text.Length == 0) return;
-
-            FileInfo archivoANSI = new FileInfo("test.ans");
-
-            List<string> lineasANSI = new List<string>();
-            string textoCompleto = rtfTexto.Text;
-
-            int p = 0;
-
-            foreach (string linea in rtfTexto.Lines) {
-                string codans = "";
-
-                for (int i = 0; i < linea.Length; i++) {
-                    char caracter = linea[i];
-
-                    rtfTexto.Select(p + i, 1);
-                    Color colorCaracter = rtfTexto.SelectionColor;
-                    string codigoANSI = ColorToAnsiCode(colorCaracter);
-                    codans += codigoANSI + caracter;
-                }
-
-                lineasANSI.Add(codans);
-                p += linea.Length + 1; // +1 por el salto de línea
-
+        private void quinceChars() {
+            int s = 0;
+            for (int i = 0; i < 15; i++) {
+                rtfSecuencia.Select(s, 1);
+                rtfTexto.Select(rtfTexto.Text.Length, 0);
+                rtfTexto.SelectedRtf = rtfSecuencia.SelectedRtf;
+                s++;
+                if (s == rtfSecuencia.Text.Length) s = 0;
             }
-
-            if (!string.IsNullOrEmpty(archivoANSI.ToString())) {
-                File.WriteAllLines(archivoANSI.ToString(), lineasANSI, Encoding.GetEncoding(437));
-            }
-
-        }*/
+        }
 
         private void guardarANSI() {
             FileInfo archivoANSI = new FileInfo("test.ans");

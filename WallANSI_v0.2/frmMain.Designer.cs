@@ -46,19 +46,26 @@
             this.cmdVerde = new System.Windows.Forms.Button();
             this.cmdRojo = new System.Windows.Forms.Button();
             this.cmdNegro = new System.Windows.Forms.Button();
+            this.btnGuardarANSI = new System.Windows.Forms.Button();
+            this.txtASCII = new System.Windows.Forms.TextBox();
+            this.btnASCII = new System.Windows.Forms.Button();
             this.btnColores = new System.Windows.Forms.Button();
             this.lblSecuencia = new System.Windows.Forms.Label();
             this.rtfSecuencia = new System.Windows.Forms.RichTextBox();
             this.rtfTexto = new System.Windows.Forms.RichTextBox();
-            this.btnASCII = new System.Windows.Forms.Button();
-            this.txtASCII = new System.Windows.Forms.TextBox();
-            this.btnGuardarANSI = new System.Windows.Forms.Button();
+            this.gbBoveda = new System.Windows.Forms.GroupBox();
+            this.cmdCerrarBoveda = new System.Windows.Forms.Button();
+            this.rtfBoveda = new System.Windows.Forms.RichTextBox();
+            this.cmdPegar = new System.Windows.Forms.Button();
+            this.cmdGuardarBoveda = new System.Windows.Forms.Button();
             this.gbPrincipal.SuspendLayout();
             this.gbColores.SuspendLayout();
+            this.gbBoveda.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbPrincipal
             // 
+            this.gbPrincipal.Controls.Add(this.gbBoveda);
             this.gbPrincipal.Controls.Add(this.gbColores);
             this.gbPrincipal.Controls.Add(this.btnGuardarANSI);
             this.gbPrincipal.Controls.Add(this.txtASCII);
@@ -90,7 +97,7 @@
             this.gbColores.Controls.Add(this.cmdVerde);
             this.gbColores.Controls.Add(this.cmdRojo);
             this.gbColores.Controls.Add(this.cmdNegro);
-            this.gbColores.Location = new System.Drawing.Point(387, 29);
+            this.gbColores.Location = new System.Drawing.Point(387, 9);
             this.gbColores.Name = "gbColores";
             this.gbColores.Size = new System.Drawing.Size(163, 129);
             this.gbColores.TabIndex = 8;
@@ -247,6 +254,42 @@
             this.cmdNegro.UseVisualStyleBackColor = false;
             this.cmdNegro.Click += new System.EventHandler(this.cambiarColor);
             // 
+            // btnGuardarANSI
+            // 
+            this.btnGuardarANSI.Location = new System.Drawing.Point(387, 9);
+            this.btnGuardarANSI.Name = "btnGuardarANSI";
+            this.btnGuardarANSI.Size = new System.Drawing.Size(114, 44);
+            this.btnGuardarANSI.TabIndex = 12;
+            this.btnGuardarANSI.Text = "Guardar ANSI";
+            this.btnGuardarANSI.UseVisualStyleBackColor = true;
+            this.btnGuardarANSI.Click += new System.EventHandler(this.btnGuardarANSI_Click);
+            // 
+            // txtASCII
+            // 
+            this.txtASCII.BackColor = System.Drawing.Color.DarkCyan;
+            this.txtASCII.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtASCII.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtASCII.ForeColor = System.Drawing.Color.Cyan;
+            this.txtASCII.Location = new System.Drawing.Point(30, 82);
+            this.txtASCII.Multiline = true;
+            this.txtASCII.Name = "txtASCII";
+            this.txtASCII.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtASCII.Size = new System.Drawing.Size(746, 403);
+            this.txtASCII.TabIndex = 11;
+            this.txtASCII.Text = resources.GetString("txtASCII.Text");
+            this.txtASCII.Visible = false;
+            this.txtASCII.WordWrap = false;
+            this.txtASCII.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txtASCII_MouseUp);
+            // 
+            // btnASCII
+            // 
+            this.btnASCII.Location = new System.Drawing.Point(354, 8);
+            this.btnASCII.Name = "btnASCII";
+            this.btnASCII.Size = new System.Drawing.Size(27, 24);
+            this.btnASCII.TabIndex = 10;
+            this.btnASCII.UseVisualStyleBackColor = true;
+            this.btnASCII.Click += new System.EventHandler(this.btnASCII_Click);
+            // 
             // btnColores
             // 
             this.btnColores.Location = new System.Drawing.Point(354, 29);
@@ -276,6 +319,7 @@
             this.rtfSecuencia.Size = new System.Drawing.Size(236, 46);
             this.rtfSecuencia.TabIndex = 1;
             this.rtfSecuencia.Text = "";
+            this.rtfSecuencia.DoubleClick += new System.EventHandler(this.rtfSecuencia_DoubleClick);
             // 
             // rtfTexto
             // 
@@ -290,41 +334,61 @@
             this.rtfTexto.Text = "";
             this.rtfTexto.WordWrap = false;
             // 
-            // btnASCII
+            // gbBoveda
             // 
-            this.btnASCII.Location = new System.Drawing.Point(354, 8);
-            this.btnASCII.Name = "btnASCII";
-            this.btnASCII.Size = new System.Drawing.Size(27, 24);
-            this.btnASCII.TabIndex = 10;
-            this.btnASCII.UseVisualStyleBackColor = true;
-            this.btnASCII.Click += new System.EventHandler(this.btnASCII_Click);
+            this.gbBoveda.Controls.Add(this.cmdPegar);
+            this.gbBoveda.Controls.Add(this.cmdGuardarBoveda);
+            this.gbBoveda.Controls.Add(this.cmdCerrarBoveda);
+            this.gbBoveda.Controls.Add(this.rtfBoveda);
+            this.gbBoveda.Location = new System.Drawing.Point(112, 47);
+            this.gbBoveda.Name = "gbBoveda";
+            this.gbBoveda.Size = new System.Drawing.Size(212, 265);
+            this.gbBoveda.TabIndex = 13;
+            this.gbBoveda.TabStop = false;
+            this.gbBoveda.Visible = false;
             // 
-            // txtASCII
+            // cmdCerrarBoveda
             // 
-            this.txtASCII.BackColor = System.Drawing.Color.DarkCyan;
-            this.txtASCII.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtASCII.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtASCII.ForeColor = System.Drawing.Color.Cyan;
-            this.txtASCII.Location = new System.Drawing.Point(30, 82);
-            this.txtASCII.Multiline = true;
-            this.txtASCII.Name = "txtASCII";
-            this.txtASCII.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtASCII.Size = new System.Drawing.Size(746, 403);
-            this.txtASCII.TabIndex = 11;
-            this.txtASCII.Text = resources.GetString("txtASCII.Text");
-            this.txtASCII.Visible = false;
-            this.txtASCII.WordWrap = false;
-            this.txtASCII.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txtASCII_MouseUp);
+            this.cmdCerrarBoveda.Location = new System.Drawing.Point(175, 4);
+            this.cmdCerrarBoveda.Name = "cmdCerrarBoveda";
+            this.cmdCerrarBoveda.Size = new System.Drawing.Size(31, 19);
+            this.cmdCerrarBoveda.TabIndex = 1;
+            this.cmdCerrarBoveda.Text = "X";
+            this.cmdCerrarBoveda.UseVisualStyleBackColor = true;
+            this.cmdCerrarBoveda.Click += new System.EventHandler(this.cmdCerrarBoveda_Click);
             // 
-            // btnGuardarANSI
+            // rtfBoveda
             // 
-            this.btnGuardarANSI.Location = new System.Drawing.Point(387, 9);
-            this.btnGuardarANSI.Name = "btnGuardarANSI";
-            this.btnGuardarANSI.Size = new System.Drawing.Size(114, 44);
-            this.btnGuardarANSI.TabIndex = 12;
-            this.btnGuardarANSI.Text = "Guardar ANSI";
-            this.btnGuardarANSI.UseVisualStyleBackColor = true;
-            this.btnGuardarANSI.Click += new System.EventHandler(this.btnGuardarANSI_Click);
+            this.rtfBoveda.BackColor = System.Drawing.Color.Black;
+            this.rtfBoveda.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfBoveda.ForeColor = System.Drawing.Color.White;
+            this.rtfBoveda.Location = new System.Drawing.Point(10, 49);
+            this.rtfBoveda.Name = "rtfBoveda";
+            this.rtfBoveda.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.rtfBoveda.Size = new System.Drawing.Size(196, 176);
+            this.rtfBoveda.TabIndex = 0;
+            this.rtfBoveda.Text = "";
+            this.rtfBoveda.WordWrap = false;
+            // 
+            // cmdPegar
+            // 
+            this.cmdPegar.Image = global::WallANSI_v0._2.Properties.Resources.arrow_up_from_bracket_244d85;
+            this.cmdPegar.Location = new System.Drawing.Point(10, 19);
+            this.cmdPegar.Name = "cmdPegar";
+            this.cmdPegar.Size = new System.Drawing.Size(31, 31);
+            this.cmdPegar.TabIndex = 3;
+            this.cmdPegar.UseVisualStyleBackColor = true;
+            this.cmdPegar.Click += new System.EventHandler(this.cmdPegar_Click);
+            // 
+            // cmdGuardarBoveda
+            // 
+            this.cmdGuardarBoveda.Image = global::WallANSI_v0._2.Properties.Resources.save_solid_308e86;
+            this.cmdGuardarBoveda.Location = new System.Drawing.Point(10, 230);
+            this.cmdGuardarBoveda.Name = "cmdGuardarBoveda";
+            this.cmdGuardarBoveda.Size = new System.Drawing.Size(31, 31);
+            this.cmdGuardarBoveda.TabIndex = 2;
+            this.cmdGuardarBoveda.UseVisualStyleBackColor = true;
+            this.cmdGuardarBoveda.Click += new System.EventHandler(this.cmdGuardarBoveda_Click);
             // 
             // frmMain
             // 
@@ -335,11 +399,13 @@
             this.Controls.Add(this.gbPrincipal);
             this.Name = "frmMain";
             this.Text = "WallANSI v0.2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmMain_DragEnter);
             this.gbPrincipal.ResumeLayout(false);
             this.gbPrincipal.PerformLayout();
             this.gbColores.ResumeLayout(false);
+            this.gbBoveda.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -370,6 +436,11 @@
         private System.Windows.Forms.Button btnASCII;
         private System.Windows.Forms.TextBox txtASCII;
         private System.Windows.Forms.Button btnGuardarANSI;
+        private System.Windows.Forms.GroupBox gbBoveda;
+        private System.Windows.Forms.Button cmdPegar;
+        private System.Windows.Forms.Button cmdGuardarBoveda;
+        private System.Windows.Forms.Button cmdCerrarBoveda;
+        private System.Windows.Forms.RichTextBox rtfBoveda;
     }
 }
 
