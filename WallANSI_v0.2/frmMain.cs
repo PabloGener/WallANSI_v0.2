@@ -6,12 +6,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /*
- * Se pierde el formato RTF al pegar texto
+ * colorear el texto en rtfTexto
  * 
  */
 
@@ -19,6 +20,9 @@ using System.Windows.Forms;
 namespace WallANSI_v0._2
 {
     public partial class frmMain : Form {
+
+        int cclr;   //cambiar color en...: 1: rtfSecuencia 2: rtfTexto
+
         public frmMain() {
             InitializeComponent();
             rtfTexto.Font = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Point);
@@ -43,7 +47,8 @@ namespace WallANSI_v0._2
                 foreach (string linea in lineas) {
                     hacerUnaTxtLine(linea);
                 }
-                rtfTexto.Font = new Font("Consolas", 12);
+                rtfTexto.Select(0, rtfTexto.Text.Length);
+                rtfTexto.SelectionFont = new Font("Courier New", 12);
                 //MessageBox.Show($"Archivo cargado: {Path.GetFileName(rutaArchivo)}", "WallANSI");
             }
             else {
@@ -101,6 +106,16 @@ namespace WallANSI_v0._2
             rtfSecuencia.SelectedRtf = rtfBoveda.SelectedRtf;
 
         }
+        private void rtfSecuencia_MouseUp(object sender, MouseEventArgs e) {
+            cclr = 1;
+
+        }
+
+        private void rtfTexto_MouseUp(object sender, MouseEventArgs e) {
+            cclr = 2;
+        }
+
+
 
         /*
         ##############################################################
@@ -155,7 +170,19 @@ namespace WallANSI_v0._2
         }
 
         private void guardarANSI() {
-            FileInfo archivoANSI = new FileInfo("test.ans");
+            FileInfo archivoANSI;
+            archivoANSI = new FileInfo("test.ans");
+            OpenFileDialog ofd = new OpenFileDialog();
+            if(ofd.ShowDialog() == DialogResult.OK) {
+                try {
+                    archivoANSI = new FileInfo(ofd.FileName);
+                }
+                    catch (SecurityException ex) {
+                    
+                    
+                }
+            }
+            
             List<String> lineasANSI = new List<string>();
             
             Color sClr = Color.White;
@@ -182,14 +209,25 @@ namespace WallANSI_v0._2
             File.WriteAllLines(archivoANSI.FullName, lineasANSI, Encoding.GetEncoding(437));
 
         }
-        
+
 
 
 
         private void cambiarColor(object sender, EventArgs e) {
             Button btnActual = (Button)sender;
-            if (rtfSecuencia.SelectionLength > 0) {
-                rtfSecuencia.SelectionColor = btnActual.BackColor;
+
+            switch (cclr) {
+                case 1:
+                    if (rtfSecuencia.SelectionLength > 0) {
+                        rtfSecuencia.SelectionColor = btnActual.BackColor;
+                    }
+                    break;
+                case 2:
+                    if (rtfTexto.SelectionLength > 0) {
+                            rtfTexto.SelectionColor = btnActual.BackColor;
+                        }
+                    break;
+
             }
         }
 
