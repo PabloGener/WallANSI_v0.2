@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.gbPrincipal = new System.Windows.Forms.GroupBox();
+            this.rtfParseador = new System.Windows.Forms.RichTextBox();
+            this.btnDecorar = new System.Windows.Forms.Button();
             this.gbBoveda = new System.Windows.Forms.GroupBox();
             this.cmdPegar = new System.Windows.Forms.Button();
             this.cmdGuardarBoveda = new System.Windows.Forms.Button();
@@ -65,6 +67,8 @@
             // 
             // gbPrincipal
             // 
+            this.gbPrincipal.Controls.Add(this.rtfParseador);
+            this.gbPrincipal.Controls.Add(this.btnDecorar);
             this.gbPrincipal.Controls.Add(this.gbBoveda);
             this.gbPrincipal.Controls.Add(this.gbColores);
             this.gbPrincipal.Controls.Add(this.btnGuardarANSI);
@@ -76,9 +80,30 @@
             this.gbPrincipal.Controls.Add(this.rtfTexto);
             this.gbPrincipal.Location = new System.Drawing.Point(12, 61);
             this.gbPrincipal.Name = "gbPrincipal";
-            this.gbPrincipal.Size = new System.Drawing.Size(825, 521);
+            this.gbPrincipal.Size = new System.Drawing.Size(825, 559);
             this.gbPrincipal.TabIndex = 0;
             this.gbPrincipal.TabStop = false;
+            // 
+            // rtfParseador
+            // 
+            this.rtfParseador.BackColor = System.Drawing.Color.DarkGoldenrod;
+            this.rtfParseador.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfParseador.ForeColor = System.Drawing.Color.White;
+            this.rtfParseador.Location = new System.Drawing.Point(557, 96);
+            this.rtfParseador.Name = "rtfParseador";
+            this.rtfParseador.Size = new System.Drawing.Size(236, 25);
+            this.rtfParseador.TabIndex = 15;
+            this.rtfParseador.Text = "";
+            this.rtfParseador.Visible = false;
+            // 
+            // btnDecorar
+            // 
+            this.btnDecorar.Location = new System.Drawing.Point(402, 15);
+            this.btnDecorar.Name = "btnDecorar";
+            this.btnDecorar.Size = new System.Drawing.Size(27, 24);
+            this.btnDecorar.TabIndex = 14;
+            this.btnDecorar.UseVisualStyleBackColor = true;
+            this.btnDecorar.Click += new System.EventHandler(this.btnDecorar_Click);
             // 
             // gbBoveda
             // 
@@ -153,7 +178,7 @@
             this.gbColores.Controls.Add(this.cmdVerde);
             this.gbColores.Controls.Add(this.cmdRojo);
             this.gbColores.Controls.Add(this.cmdNegro);
-            this.gbColores.Location = new System.Drawing.Point(387, 9);
+            this.gbColores.Location = new System.Drawing.Point(354, 45);
             this.gbColores.Name = "gbColores";
             this.gbColores.Size = new System.Drawing.Size(163, 129);
             this.gbColores.TabIndex = 8;
@@ -312,9 +337,9 @@
             // 
             // btnGuardarANSI
             // 
-            this.btnGuardarANSI.Location = new System.Drawing.Point(387, 9);
+            this.btnGuardarANSI.Location = new System.Drawing.Point(699, 517);
             this.btnGuardarANSI.Name = "btnGuardarANSI";
-            this.btnGuardarANSI.Size = new System.Drawing.Size(114, 44);
+            this.btnGuardarANSI.Size = new System.Drawing.Size(114, 32);
             this.btnGuardarANSI.TabIndex = 12;
             this.btnGuardarANSI.Text = "Guardar ANSI";
             this.btnGuardarANSI.UseVisualStyleBackColor = true;
@@ -339,7 +364,7 @@
             // 
             // btnASCII
             // 
-            this.btnASCII.Location = new System.Drawing.Point(354, 8);
+            this.btnASCII.Location = new System.Drawing.Point(354, 15);
             this.btnASCII.Name = "btnASCII";
             this.btnASCII.Size = new System.Drawing.Size(27, 24);
             this.btnASCII.TabIndex = 10;
@@ -348,7 +373,7 @@
             // 
             // btnColores
             // 
-            this.btnColores.Location = new System.Drawing.Point(354, 29);
+            this.btnColores.Location = new System.Drawing.Point(378, 15);
             this.btnColores.Name = "btnColores";
             this.btnColores.Size = new System.Drawing.Size(27, 24);
             this.btnColores.TabIndex = 3;
@@ -370,9 +395,9 @@
             this.rtfSecuencia.BackColor = System.Drawing.Color.Black;
             this.rtfSecuencia.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtfSecuencia.ForeColor = System.Drawing.Color.White;
-            this.rtfSecuencia.Location = new System.Drawing.Point(112, 7);
+            this.rtfSecuencia.Location = new System.Drawing.Point(112, 18);
             this.rtfSecuencia.Name = "rtfSecuencia";
-            this.rtfSecuencia.Size = new System.Drawing.Size(236, 46);
+            this.rtfSecuencia.Size = new System.Drawing.Size(236, 25);
             this.rtfSecuencia.TabIndex = 1;
             this.rtfSecuencia.Text = "";
             this.rtfSecuencia.DoubleClick += new System.EventHandler(this.rtfSecuencia_DoubleClick);
@@ -397,7 +422,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(876, 594);
+            this.ClientSize = new System.Drawing.Size(876, 632);
             this.Controls.Add(this.gbPrincipal);
             this.Name = "frmMain";
             this.Text = "WallANSI v0.2";
@@ -443,6 +468,8 @@
         private System.Windows.Forms.Button cmdGuardarBoveda;
         private System.Windows.Forms.Button cmdCerrarBoveda;
         private System.Windows.Forms.RichTextBox rtfBoveda;
+        private System.Windows.Forms.Button btnDecorar;
+        private System.Windows.Forms.RichTextBox rtfParseador;
     }
 }
 

@@ -12,8 +12,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /*
- * colorear el texto en rtfTexto
- * 
+ * se esta utilizando quinceCharsIn y btnDecorar para procesar el texto
+ * con rtfParseador
+ * temas para resolver:
+ *      - color del texto: debe ser blanco
+ *      - espacios del segundo 'quinceCharsIn()'
  */
 
 
@@ -44,12 +47,15 @@ namespace WallANSI_v0._2
                 string[] lineas = File.ReadAllLines(rutaArchivo);
                 if (lineas.Length == 0) return;
 
-                foreach (string linea in lineas) {
+                rtfTexto.Text = "";
+                cargarTodoElTexto(lineas);
+                /*foreach (string linea in lineas) {
                     hacerUnaTxtLine(linea);
                 }
                 rtfTexto.Select(0, rtfTexto.Text.Length);
                 rtfTexto.SelectionFont = new Font("Courier New", 12);
                 //MessageBox.Show($"Archivo cargado: {Path.GetFileName(rutaArchivo)}", "WallANSI");
+                */
             }
             else {
                 MessageBox.Show("Solo se aceptan archivos .txt", "Error");
@@ -125,7 +131,11 @@ namespace WallANSI_v0._2
         ##############################################################
         */
 
+        private void cargarTodoElTexto(string[] textoCompleto) {
+            
+            rtfTexto.Lines = textoCompleto;
 
+        }
         private void hacerUnaCharline() {
             int s = 0;
             string cincuenta = new string(' ', 50);
@@ -138,11 +148,16 @@ namespace WallANSI_v0._2
         }
 
         private void hacerUnaTxtLine(string strLinea) {
-            hacerUnaCharline();
-            int c = rtfTexto.Text.Length - 65;
+            int c = 0;
+            if (strLinea.Length < 51) {
+                hacerUnaCharline();
+                c = rtfTexto.Text.Length - 65;
+            } else {
+                if (rtfTexto.Text.Length < 81) {
+                    c = 80 - rtfTexto.Text.Length;
+                } else { c = 0; }
+            }
 
-            
-            
             for (int i = 0; i < strLinea.Length - 1; i++) {
                 rtfTexto.Select(c, 1);
                 rtfTexto.SelectedText = strLinea[i].ToString();
@@ -156,6 +171,7 @@ namespace WallANSI_v0._2
                     c = rtfTexto.Text.Length - 65;
                 }
             }
+            
         }
 
         private void quinceChars() {
@@ -169,13 +185,26 @@ namespace WallANSI_v0._2
             }
         }
 
+        private void quinceCharsIn() {
+            int s = 0;
+            for (int i = 0; i < 15; i++) {
+                rtfSecuencia.Select(s, 1);
+                rtfParseador.Select(rtfParseador.Text.Length, 0);
+                rtfParseador.SelectedRtf = rtfSecuencia.SelectedRtf;
+                s++;
+                if (s == rtfSecuencia.Text.Length) s = 0;
+            }
+
+        }
+
         private void guardarANSI() {
             FileInfo archivoANSI;
             archivoANSI = new FileInfo("test.ans");
-            OpenFileDialog ofd = new OpenFileDialog();
-            if(ofd.ShowDialog() == DialogResult.OK) {
+            SaveFileDialog sfd = new SaveFileDialog();
+            
+            if(sfd.ShowDialog() == DialogResult.OK) {
                 try {
-                    archivoANSI = new FileInfo(ofd.FileName);
+                    archivoANSI = new FileInfo(sfd.FileName);
                 }
                     catch (SecurityException ex) {
                     
@@ -304,6 +333,71 @@ namespace WallANSI_v0._2
 
         }
 
-        
+        private string[] Seleccionadas(RichTextBox rtf) {
+            if (rtf.SelectionLength == 0)
+                return new string[0];
+
+            int inicio = rtf.GetLineFromCharIndex(rtf.SelectionStart);
+            int fin = rtf.GetLineFromCharIndex(rtf.SelectionStart + rtf.SelectionLength);
+
+            List<string> lineas = new List<string>();
+            for (int i = inicio; i <= fin; i++) {
+                if (i < rtf.Lines.Length)
+                    lineas.Add(rtf.Lines[i]);
+            }
+
+            return lineas.ToArray();
+        }
+
+        private void btnDecorar_Click(object sender, EventArgs e) {
+
+            string[] seleccionadas = Seleccionadas(rtfTexto);
+
+            foreach(string linea in seleccionadas) {
+                quinceCharsIn();
+                rtfParseador.Select(rtfParseador.Text.Length, 0);
+                rtfParseador.SelectedText = linea;
+                quinceCharsIn();
+                rtfParseador.Select(rtfParseador.Text.Length, 0);
+                rtfParseador.SelectedText = Environment.NewLine;
+            }
+
+            rtfParseador.Select(0, rtfParseador.Text.Length);
+            rtfTexto.SelectedRtf = rtfParseador.SelectedRtf;
+            
+            
+            /*int ist, ien, rastro = 0;
+            int inicioSelec, largoSelec;
+            char r;
+            string[] bLineas;
+
+            bLineas = Seleccionadas(rtfTexto);
+
+            /// AGREGAR CODIGO PARA CONSTRUIR LINEA POR LINEA LOS QUINCE
+            /// CARACTERES ANTERIORES + LINEA + QUINCE CARACTERES POSTERIORES
+            /// EN rtfParseador Y LUEGO REEMPLAZAR LAS LINEAS SELECCIONADAS
+            /// CON TODO EL CONTENIDO DE rtfParseador
+
+
+            if (rtfTexto.SelectedText.Length == 0) return;
+            ist = rtfTexto.SelectionStart; ien = ist + rtfTexto.SelectionLength;
+            inicioSelec = rtfTexto.SelectionStart; largoSelec = rtfTexto.SelectionLength;
+
+            //quinceCharsIn(ist);
+            
+            //rastro = ist + 15; ien = ien + 15;
+            //do {
+            //    r = rtfTexto.Text[rastro];
+            //    if(r == '\n') {
+            //        quinceCharsIn(rastro - 1);
+            //        quinceCharsIn(rastro + 1);
+            //        rastro = rastro + 15;
+            //        ien = ien + 30;
+            //    }
+
+            //} while (rastro < ien);
+            
+            */
+        }
     }
 }
