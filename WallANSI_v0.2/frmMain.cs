@@ -12,11 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /*
- * se esta utilizando quinceCharsIn y btnDecorar para procesar el texto
- * con rtfParseador
- * temas para resolver:
- *      - color del texto: debe ser blanco
- *      - espacios del segundo 'quinceCharsIn()'
+ * R·E·L·E·A·S·E    C·A·N·D·I·D·A·T·E
+ * 
  */
 
 
@@ -121,7 +118,29 @@ namespace WallANSI_v0._2
             cclr = 2;
         }
 
+        private void btnDecorar_Click(object sender, EventArgs e) {
 
+            string[] seleccionadas = Seleccionadas(rtfTexto);
+            if (seleccionadas.Length == 0) return;
+
+            rtfParseador.Text = "";
+            foreach(string linea in seleccionadas) {
+                string linea50 = linea.PadRight(50, ' ');
+                quinceCharsIn();
+                rtfParseador.Select(rtfParseador.Text.Length, 0);
+                rtfParseador.SelectionColor = Color.White;
+                rtfParseador.SelectedText = linea50;
+                quinceCharsIn();
+                rtfParseador.Select(rtfParseador.Text.Length, 0);
+                rtfParseador.SelectedText = Environment.NewLine;
+            }
+
+            rtfParseador.Select(0, rtfParseador.Text.Length);
+            rtfTexto.SelectedRtf = rtfParseador.SelectedRtf;
+
+            rtfTexto.Select(0, rtfTexto.Text.Length);
+            rtfTexto.SelectionFont = new Font("Courier New", 12);
+        }
 
         /*
         ##############################################################
@@ -349,55 +368,6 @@ namespace WallANSI_v0._2
             return lineas.ToArray();
         }
 
-        private void btnDecorar_Click(object sender, EventArgs e) {
-
-            string[] seleccionadas = Seleccionadas(rtfTexto);
-
-            foreach(string linea in seleccionadas) {
-                quinceCharsIn();
-                rtfParseador.Select(rtfParseador.Text.Length, 0);
-                rtfParseador.SelectedText = linea;
-                quinceCharsIn();
-                rtfParseador.Select(rtfParseador.Text.Length, 0);
-                rtfParseador.SelectedText = Environment.NewLine;
-            }
-
-            rtfParseador.Select(0, rtfParseador.Text.Length);
-            rtfTexto.SelectedRtf = rtfParseador.SelectedRtf;
-            
-            
-            /*int ist, ien, rastro = 0;
-            int inicioSelec, largoSelec;
-            char r;
-            string[] bLineas;
-
-            bLineas = Seleccionadas(rtfTexto);
-
-            /// AGREGAR CODIGO PARA CONSTRUIR LINEA POR LINEA LOS QUINCE
-            /// CARACTERES ANTERIORES + LINEA + QUINCE CARACTERES POSTERIORES
-            /// EN rtfParseador Y LUEGO REEMPLAZAR LAS LINEAS SELECCIONADAS
-            /// CON TODO EL CONTENIDO DE rtfParseador
-
-
-            if (rtfTexto.SelectedText.Length == 0) return;
-            ist = rtfTexto.SelectionStart; ien = ist + rtfTexto.SelectionLength;
-            inicioSelec = rtfTexto.SelectionStart; largoSelec = rtfTexto.SelectionLength;
-
-            //quinceCharsIn(ist);
-            
-            //rastro = ist + 15; ien = ien + 15;
-            //do {
-            //    r = rtfTexto.Text[rastro];
-            //    if(r == '\n') {
-            //        quinceCharsIn(rastro - 1);
-            //        quinceCharsIn(rastro + 1);
-            //        rastro = rastro + 15;
-            //        ien = ien + 30;
-            //    }
-
-            //} while (rastro < ien);
-            
-            */
-        }
+        
     }
 }
